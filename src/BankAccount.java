@@ -1,27 +1,31 @@
 public class BankAccount {
-    private final String accountNumber;
+    final private String accountNumber;
     private double balance;
 
-    public BankAccount(String accountNumber, double balance) {
+    public BankAccount(String accountNumber, double initialBalance) {
         this.accountNumber = accountNumber;
-        this.balance = balance;
+        this.balance = initialBalance;
     }
 
     public synchronized void deposit(double amount) {
+        System.out.println("Your balance is: " + balance + " BDT and deposited: " + amount + " BDT");
         balance += amount;
-        System.out.println(Thread.currentThread().getName() + " deposited: " + amount);
     }
 
     public synchronized void withdraw(double amount) {
         if (balance >= amount) {
+            System.out.println("Your balance is: " + balance + " BDT and withdrew: " + amount + " BDT");
             balance -= amount;
-            System.out.println(Thread.currentThread().getName() + " withdrew: " + amount);
         } else {
-            System.out.println(Thread.currentThread().getName() + " insufficient balance for withdrawal");
+            System.out.println("Your balance is: " + balance + " BDT and failed to withdraw: " + amount + " BDT due to insufficient funds.");
         }
     }
 
     public double getBalance() {
         return balance;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
     }
 }

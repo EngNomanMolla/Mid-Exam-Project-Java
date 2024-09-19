@@ -1,28 +1,31 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        // Initialize bank accounts with initial balances
-        BankAccount account1 = new BankAccount("Account_053", 0.00);
-        BankAccount account2 = new BankAccount("Account_2023100010013", 10000.00); // Initial balance set to 10,000 for demonstration
 
-        // Create transaction threads based on the given data
-        Thread depositThread = new Thread(new TransactionThread(account1, 36750, true), "Deposit Thread");
-        Thread withdrawThread = new Thread(new TransactionThread(account2, 9450, false), "Withdraw Thread");
+        BankAccount account1 = new BankAccount("Account_047", 220500);
+        BankAccount account2 = new BankAccount("Account_2023000010053", 231000);
 
-        // Start the threads
-        depositThread.start();
-        withdrawThread.start();
 
-        // Wait for threads to finish
+        TransactionThread depositToAccount1 = new TransactionThread(account1, true, 31500);  // Deposit
+        TransactionThread withdrawFromAccount2 = new TransactionThread(account2, false, 7350);  // Withdraw
+
+
+        depositToAccount1.start();
+        withdrawFromAccount2.start();
+
+
         try {
-            depositThread.join();
-            withdrawThread.join();
+            depositToAccount1.join();
+            withdrawFromAccount2.join();
         } catch (InterruptedException e) {
-            System.out.print(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
-        // Display final balances
-        System.out.println("Final balance for Account_047: " + account1.getBalance());
-        System.out.println("Final balance for Account_2023000010053: " + account2.getBalance());
+
+        System.out.println("Total current balance of " + account1.getAccountNumber() + ": " + account1.getBalance() + " BDT");
+        System.out.println("Total current balance of " + account2.getAccountNumber() + ": " + account2.getBalance() + " BDT");
     }
 
 

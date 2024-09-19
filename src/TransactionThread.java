@@ -1,21 +1,20 @@
-public class TransactionThread implements Runnable {
-    private final BankAccount account;
-    private final double amount;
-    private final boolean deposit;
+public class TransactionThread extends Thread {
+   final private BankAccount account;
+   final private boolean isDeposit;
+  final   private double amount;
 
-    public TransactionThread(BankAccount account, double amount, boolean deposit) {
+    public TransactionThread(BankAccount account, boolean isDeposit, double amount) {
         this.account = account;
+        this.isDeposit = isDeposit;
         this.amount = amount;
-        this.deposit = deposit;
     }
 
     @Override
     public void run() {
-        if (deposit) {
+        if (isDeposit) {
             account.deposit(amount);
         } else {
             account.withdraw(amount);
         }
-        System.out.println("Final balance: " + account.getBalance());
     }
 }
